@@ -840,4 +840,3 @@ function deleteTextArea(e) {
 function uploadImage(etwas) {
     console.log(signaturePad)
 }
-

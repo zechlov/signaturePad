@@ -567,6 +567,7 @@
                     this.drawType = lines.type
                     this.penColor = lines.line_color
                     if (len > 1) {
+                        this._pro = lines.line[0]
                         for (let i = 0; i < len - 1; i++) {
                             let ori = lines.line[i],
                                 pro = lines.line[i - 1],

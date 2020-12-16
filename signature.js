@@ -384,13 +384,13 @@
                 }
             }
         } else if (this.drawType === 2) {
-            context.lineWidth = (this.minWidth + this.maxWidth) / 2
+            context.lineWidth = this.minWidth + this.maxWidth
             context.beginPath()
             context.moveTo(oX, oY)
             context.lineTo(eX, eY)
             context.stroke()
         } else if (this.drawType === 3) {
-            context.lineWidth = (this.minWidth + this.maxWidth) / 2
+            context.lineWidth = this.minWidth + this.maxWidth
             var k = ((eX - oX) / 0.75) / 2,
                 w = (eX - oY) / 2,
                 h = (eY - oY) / 2,
@@ -403,7 +403,7 @@
             context.closePath();
             context.stroke();
         } else if (this.drawType === 4) {
-            context.lineWidth = (this.minWidth + this.maxWidth) / 2
+            context.lineWidth = this.minWidth + this.maxWidth
             context.beginPath();
             context.rect(oX, oY, eX - oX, eY - oY);
             context.stroke();
@@ -523,17 +523,23 @@
         let osharp = this.sharpType
         let otype = this.drawType
         let ocolor = this.penColor
+        let ow = this.maxWidth
         this._ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         this._drawStatus.map((lineArr, index) => {
             if (index === sich.level) {
+                if (this.drawType != 0) {
+                    lineArr.pop()
+                }
                 lineArr.pop()
             }
+
             if (lineArr.length > 0) {
                 lineArr.map((lines) => {
                     let len = lines.line.length
                     this.sharpType = lines.sharp
                     this.drawType = lines.type
                     this.penColor = lines.line_color
+                    this.maxWidth = lines.line_width
                     if (len > 1) {
                         for (let i = 0; i < len - 1; i++) {
                             let ori = lines.line[i],
@@ -551,6 +557,7 @@
         this.sharpType = osharp
         this.drawType = otype
         this.penColor = ocolor
+        this.maxWidth = ow
     }
 
     signaturePad.prototype._reDraw = function () {
@@ -558,6 +565,7 @@
         let osharp = this.sharpType
         let otype = this.drawType
         let ocolor = this.penColor
+        let oW = this.maxWidth
         if (this._isEmpty) return
         this._drawStatus.map((lineArr, index) => {
             if (lineArr.length > 0) {
@@ -566,6 +574,7 @@
                     this.sharpType = lines.sharp
                     this.drawType = lines.type
                     this.penColor = lines.line_color
+                    this.maxWidth = lines.line_width
                     if (len > 1) {
                         this._pro = lines.line[0]
                         for (let i = 0; i < len - 1; i++) {
@@ -584,6 +593,7 @@
         this.sharpType = osharp
         this.drawType = otype
         this.penColor = ocolor
+        this.maxWidth = oW
     }
 
     signaturePad.prototype.saveImage = function () {
@@ -841,3 +851,4 @@ function deleteTextArea(e) {
 function uploadImage(etwas) {
     console.log(signaturePad)
 }
+
